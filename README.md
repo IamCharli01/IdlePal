@@ -1,0 +1,2 @@
+# IdlePal
+Official IdlePal Repo
