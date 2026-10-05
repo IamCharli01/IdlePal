@@ -1,0 +1,4 @@
+*.vsix
+node_modules/
+# Internal product strategy (pricing, revenue); not for the public repo.
+ROADMAP.md

@@ -1,0 +1,22 @@
+name: CI
+on:
+  push:
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Syntax check
+        run: for f in $(find src media test -name '*.js'); do node --check "$f"; done
+      - name: Unit tests
+        run: node --test 'test/**/*.test.js'
+      - name: Package
+        run: npx --yes @vscode/vsce package --no-dependencies
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vsix
+          path: '*.vsix'

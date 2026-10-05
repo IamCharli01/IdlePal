@@ -1,0 +1,612 @@
+{
+  "name": "idlepal",
+  "displayName": "IdlePal: A Pixel Pet for Coders",
+  "description": "A pixel-art pet that lives in your editor and grows with your coding. 14 mini-games, expeditions, a room to decorate, a rubber-duck mode for debugging, daily quests, focus sessions, a haggling shopkeeper and team pets via git.",
+  "version": "1.0.0",
+  "publisher": "idlepal",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IamCharli01/IdlePal.git"
+  },
+  "bugs": {
+    "url": "https://github.com/IamCharli01/IdlePal/issues"
+  },
+  "homepage": "https://github.com/IamCharli01/IdlePal#readme",
+  "icon": "media/icon.png",
+  "galleryBanner": {
+    "color": "#1d1f24",
+    "theme": "dark"
+  },
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other",
+    "Visualization"
+  ],
+  "keywords": [
+    "virtual pet",
+    "pixel pet",
+    "pixel art",
+    "productivity",
+    "pomodoro",
+    "focus",
+    "streak",
+    "gamification",
+    "mini games",
+    "break reminder",
+    "team",
+    "rubber duck",
+    "snake",
+    "fun"
+  ],
+  "main": "./src/extension.js",
+  "extensionKind": [
+    "ui",
+    "workspace"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": "limited",
+      "description": "Team pet sharing (writing .idlepal/ into the workspace) is disabled in untrusted workspaces."
+    },
+    "virtualWorkspaces": {
+      "supported": "limited",
+      "description": "Team pet sharing needs a real folder."
+    }
+  },
+  "activationEvents": [
+    "onStartupFinished",
+    "onWebviewPanel:idlepal.panel"
+  ],
+  "scripts": {
+    "test": "node --test test/",
+    "package": "npx @vscode/vsce package --no-dependencies"
+  },
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "idlepal",
+          "title": "IdlePal",
+          "icon": "media/activity.svg"
+        }
+      ]
+    },
+    "views": {
+      "explorer": [
+        {
+          "type": "webview",
+          "id": "idlepal.view",
+          "name": "IdlePal",
+          "icon": "media/activity.svg",
+          "contextualTitle": "IdlePal",
+          "when": "config.idlepal.location != 'activityBar'"
+        }
+      ],
+      "idlepal": [
+        {
+          "type": "webview",
+          "id": "idlepal.sidebarView",
+          "name": "Pet",
+          "icon": "media/activity.svg",
+          "contextualTitle": "IdlePal",
+          "when": "config.idlepal.location == 'activityBar'"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "idlepal.menu",
+        "title": "Menu",
+        "category": "IdlePal"
+      },
+      {
+        "command": "idlepal.show",
+        "title": "Show Pet",
+        "category": "IdlePal"
+      },
+      {
+        "command": "idlepal.openInEditor",
+        "title": "Open in Editor Tab",
+        "category": "IdlePal",
+        "icon": "$(link-external)"
+      },
+      {
+        "command": "idlepal.focusStart",
+        "title": "Start Focus Session",
+        "category": "IdlePal",
+        "icon": "$(target)"
+      },
+      {
+        "command": "idlepal.focusStop",
+        "title": "Stop Focus Session",
+        "category": "IdlePal"
+      },
+      {
+        "command": "idlepal.focusToggle",
+        "title": "Start or Stop Focus Session",
+        "category": "IdlePal"
+      },
+      {
+        "command": "idlepal.quests",
+        "title": "Show Daily Quests",
+        "category": "IdlePal"
+      },
+      {
+        "command": "idlepal.showRecap",
+        "title": "Show Weekly Recap",
+        "category": "IdlePal"
+      },
+      {
+        "command": "idlepal.journal",
+        "title": "Open Journal",
+        "category": "IdlePal"
+      },
+      {
+        "command": "idlepal.expedition",
+        "title": "Send on an Expedition",
+        "category": "IdlePal"
+      },
+      {
+        "command": "idlepal.duck",
+        "title": "Rubber Duck a Bug",
+        "category": "IdlePal"
+      },
+      {
+        "command": "idlepal.feed",
+        "title": "Feed a Meal",
+        "category": "IdlePal"
+      },
+      {
+        "command": "idlepal.snack",
+        "title": "Give a Snack",
+        "category": "IdlePal"
+      },
+      {
+        "command": "idlepal.play",
+        "title": "Play a Game",
+        "category": "IdlePal"
+      },
+      {
+        "command": "idlepal.clean",
+        "title": "Clean Up",
+        "category": "IdlePal"
+      },
+      {
+        "command": "idlepal.medicine",
+        "title": "Give Medicine",
+        "category": "IdlePal"
+      },
+      {
+        "command": "idlepal.lights",
+        "title": "Toggle Lights (Sleep/Wake)",
+        "category": "IdlePal"
+      },
+      {
+        "command": "idlepal.togglePause",
+        "title": "Toggle Vacation Mode (Freeze Time)",
+        "category": "IdlePal",
+        "icon": "$(debug-pause)"
+      },
+      {
+        "command": "idlepal.openShop",
+        "title": "Open Shop",
+        "category": "IdlePal"
+      },
+      {
+        "command": "idlepal.toggleTeamShare",
+        "title": "Share My Pet with This Repo (Toggle)",
+        "category": "IdlePal"
+      },
+      {
+        "command": "idlepal.shareCard",
+        "title": "Save a Share Card (PNG)",
+        "category": "IdlePal"
+      },
+      {
+        "command": "idlepal.rename",
+        "title": "Rename Pet",
+        "category": "IdlePal"
+      },
+      {
+        "command": "idlepal.newPet",
+        "title": "Start Over with a New Egg",
+        "category": "IdlePal"
+      },
+      {
+        "command": "idlepal.exportSave",
+        "title": "Export Save…",
+        "category": "IdlePal"
+      },
+      {
+        "command": "idlepal.importSave",
+        "title": "Import Save…",
+        "category": "IdlePal"
+      },
+      {
+        "command": "idlepal.exportCsv",
+        "title": "Export Coding Stats (CSV)…",
+        "category": "IdlePal"
+      },
+      {
+        "command": "idlepal.resetAll",
+        "title": "Erase All Data…",
+        "category": "IdlePal"
+      },
+      {
+        "command": "idlepal.walkthrough",
+        "title": "Getting Started",
+        "category": "IdlePal"
+      },
+      {
+        "command": "idlepal.openSettings",
+        "title": "Settings",
+        "category": "IdlePal",
+        "icon": "$(gear)"
+      },
+      {
+        "command": "idlepal.showLog",
+        "title": "Show Log",
+        "category": "IdlePal"
+      },
+      {
+        "command": "idlepal.redeemCode",
+        "title": "Redeem Promo Code…",
+        "category": "IdlePal"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "idlepal.menu",
+        "key": "ctrl+alt+t",
+        "mac": "cmd+alt+t"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "idlepal.focusStart",
+          "when": "view == idlepal.view || view == idlepal.sidebarView",
+          "group": "navigation@1"
+        },
+        {
+          "command": "idlepal.togglePause",
+          "when": "view == idlepal.view || view == idlepal.sidebarView",
+          "group": "navigation@2"
+        },
+        {
+          "command": "idlepal.openInEditor",
+          "when": "view == idlepal.view || view == idlepal.sidebarView",
+          "group": "navigation@3"
+        },
+        {
+          "command": "idlepal.openSettings",
+          "when": "view == idlepal.view || view == idlepal.sidebarView",
+          "group": "navigation@4"
+        },
+        {
+          "command": "idlepal.quests",
+          "when": "view == idlepal.view || view == idlepal.sidebarView",
+          "group": "0_daily@1"
+        },
+        {
+          "command": "idlepal.showRecap",
+          "when": "view == idlepal.view || view == idlepal.sidebarView",
+          "group": "0_daily@2"
+        },
+        {
+          "command": "idlepal.journal",
+          "when": "view == idlepal.view || view == idlepal.sidebarView",
+          "group": "0_daily@3"
+        },
+        {
+          "command": "idlepal.expedition",
+          "when": "view == idlepal.view || view == idlepal.sidebarView",
+          "group": "0_daily@4"
+        },
+        {
+          "command": "idlepal.duck",
+          "when": "view == idlepal.view || view == idlepal.sidebarView",
+          "group": "0_daily@5"
+        },
+        {
+          "command": "idlepal.toggleTeamShare",
+          "when": "view == idlepal.view || view == idlepal.sidebarView",
+          "group": "1_tools@0"
+        },
+        {
+          "command": "idlepal.shareCard",
+          "when": "view == idlepal.view || view == idlepal.sidebarView",
+          "group": "1_tools@1"
+        },
+        {
+          "command": "idlepal.exportSave",
+          "when": "view == idlepal.view || view == idlepal.sidebarView",
+          "group": "1_tools@2"
+        },
+        {
+          "command": "idlepal.importSave",
+          "when": "view == idlepal.view || view == idlepal.sidebarView",
+          "group": "1_tools@3"
+        },
+        {
+          "command": "idlepal.exportCsv",
+          "when": "view == idlepal.view || view == idlepal.sidebarView",
+          "group": "1_tools@4"
+        },
+        {
+          "command": "idlepal.rename",
+          "when": "view == idlepal.view || view == idlepal.sidebarView",
+          "group": "2_pet@1"
+        },
+        {
+          "command": "idlepal.newPet",
+          "when": "view == idlepal.view || view == idlepal.sidebarView",
+          "group": "2_pet@2"
+        },
+        {
+          "command": "idlepal.walkthrough",
+          "when": "view == idlepal.view || view == idlepal.sidebarView",
+          "group": "3_help@1"
+        },
+        {
+          "command": "idlepal.redeemCode",
+          "when": "view == idlepal.view || view == idlepal.sidebarView",
+          "group": "1_tools@5"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "idlepal.focusToggle",
+          "when": "false"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "IdlePal",
+      "properties": {
+        "idlepal.speed": {
+          "type": "number",
+          "default": 1,
+          "minimum": 0.1,
+          "maximum": 10,
+          "order": 1,
+          "markdownDescription": "How fast your pet gets hungry, bored and tired. `1` is normal; `0.5` suits busy days full of meetings."
+        },
+        "idlepal.notifications": {
+          "type": "string",
+          "enum": [
+            "all",
+            "important",
+            "off"
+          ],
+          "default": "all",
+          "order": 2,
+          "enumDescriptions": [
+            "Important events plus reminders when your pet needs something (at most every 30 minutes).",
+            "Only hatching, evolving, sickness, death, quests and achievements.",
+            "No notifications. The status bar and speech bubble still update."
+          ],
+          "description": "When to show notifications."
+        },
+        "idlepal.statusBar": {
+          "type": "string",
+          "enum": [
+            "full",
+            "compact",
+            "hidden"
+          ],
+          "default": "full",
+          "order": 3,
+          "enumDescriptions": [
+            "Mood, name and alerts",
+            "Mood and alerts only",
+            "Don't show a status bar item"
+          ],
+          "description": "How your pet appears in the status bar."
+        },
+        "idlepal.focus.workMinutes": {
+          "type": "number",
+          "default": 25,
+          "minimum": 5,
+          "maximum": 120,
+          "order": 4,
+          "description": "Length of a focus session."
+        },
+        "idlepal.focus.breakMinutes": {
+          "type": "number",
+          "default": 5,
+          "minimum": 1,
+          "maximum": 60,
+          "order": 5,
+          "description": "Length of the break after a focus session."
+        },
+        "idlepal.breakReminderMinutes": {
+          "type": "number",
+          "default": 90,
+          "minimum": 0,
+          "maximum": 480,
+          "order": 6,
+          "markdownDescription": "Remind you to take a break after this many minutes of continuous coding (outside focus sessions). `0` turns reminders off."
+        },
+        "idlepal.codingRewards": {
+          "type": "boolean",
+          "default": true,
+          "order": 7,
+          "description": "Typing and saving files make your pet happier and earn coins (capped each day)."
+        },
+        "idlepal.integrations.git": {
+          "type": "boolean",
+          "default": true,
+          "order": 8,
+          "description": "Celebrate git commits (uses the built-in Git extension)."
+        },
+        "idlepal.integrations.diagnostics": {
+          "type": "boolean",
+          "default": true,
+          "order": 9,
+          "description": "Your pet worries when your workspace has lots of errors, and celebrates when you clear them."
+        },
+        "idlepal.integrations.tasks": {
+          "type": "boolean",
+          "default": true,
+          "order": 10,
+          "description": "React when build and test tasks pass or fail."
+        },
+        "idlepal.team.share": {
+          "type": "boolean",
+          "default": false,
+          "order": 11,
+          "markdownDescription": "Share a small card about your pet (name, species, mood, streak - never coding time) to `.idlepal/` in the current workspace, so teammates who commit it see each other's pets. Also toggled with **IdlePal: Share My Pet with This Repo**."
+        },
+        "idlepal.team.displayName": {
+          "type": "string",
+          "default": "",
+          "order": 12,
+          "description": "Your name on team cards. Defaults to your OS user name."
+        },
+        "idlepal.weeklyRecap": {
+          "type": "boolean",
+          "default": true,
+          "order": 13,
+          "description": "Offer a recap of last week's coding the first time you open VS Code each week."
+        },
+        "idlepal.sound": {
+          "type": "boolean",
+          "default": false,
+          "order": 14,
+          "description": "Play retro beeps for events."
+        },
+        "idlepal.syncAcrossMachines": {
+          "type": "boolean",
+          "default": true,
+          "order": 15,
+          "markdownDescription": "Sync your pet to your other machines with [Settings Sync](command:workbench.userDataSync.actions.turnOn)."
+        },
+        "idlepal.location": {
+          "type": "string",
+          "enum": [
+            "explorer",
+            "activityBar"
+          ],
+          "default": "explorer",
+          "order": 0,
+          "enumDescriptions": [
+            "In the Explorer, underneath your file tree (drag it anywhere you like).",
+            "In its own tab on the activity bar, with the whole sidebar to itself."
+          ],
+          "description": "Where your pet lives."
+        },
+        "idlepal.promoCode": {
+          "type": "string",
+          "default": "",
+          "order": 16,
+          "markdownDescription": "Got a promo code? Type it here to unlock a **Vault** item in the shop. The field clears itself once the code is checked. You can also use **IdlePal: Redeem Promo Code**."
+        }
+      }
+    },
+    "walkthroughs": [
+      {
+        "id": "idlepal.welcome",
+        "title": "Meet your IdlePal",
+        "description": "Hatch, raise and collect pixel pets that grow alongside your coding.",
+        "steps": [
+          {
+            "id": "hatch",
+            "title": "Hatch your egg",
+            "description": "Your pet lives in the Explorer, underneath your files. Its egg hatches after about a minute with VS Code open.\n[Show my pet](command:idlepal.show)",
+            "media": {
+              "markdown": "walkthrough/hatch.md"
+            },
+            "completionEvents": [
+              "onView:idlepal.view",
+              "onView:idlepal.sidebarView",
+              "onCommand:idlepal.show"
+            ]
+          },
+          {
+            "id": "care",
+            "title": "Keep it happy",
+            "description": "Feed it, clean up after it, give it medicine when it's sick and put it to bed when it's tired. Good care shapes what it grows into.\n[Feed a meal](command:idlepal.feed)",
+            "media": {
+              "markdown": "walkthrough/care.md"
+            },
+            "completionEvents": [
+              "onCommand:idlepal.feed"
+            ]
+          },
+          {
+            "id": "quests",
+            "title": "Daily quests and focus",
+            "description": "Three fresh quests every day, and a focus timer your pet does with you. Both pay coins.\n[Show today's quests](command:idlepal.quests)",
+            "media": {
+              "markdown": "walkthrough/quests.md"
+            },
+            "completionEvents": [
+              "onCommand:idlepal.quests",
+              "onCommand:idlepal.focusStart"
+            ]
+          },
+          {
+            "id": "code",
+            "title": "Code to earn coins",
+            "description": "Typing, saving, committing, clearing errors, passing builds and daily check-ins all earn 🪙. Spend them on food, hats, screen themes and Streak Shields.\n[Open the shop](command:idlepal.openShop)",
+            "media": {
+              "markdown": "walkthrough/code.md"
+            },
+            "completionEvents": [
+              "onCommand:idlepal.openShop"
+            ]
+          },
+          {
+            "id": "play",
+            "title": "Play mini-games",
+            "description": "Left or Right, and Bug Squash. Games cheer your pet up and win coins.\n[Play a game](command:idlepal.play)",
+            "media": {
+              "markdown": "walkthrough/play.md"
+            },
+            "completionEvents": [
+              "onCommand:idlepal.play"
+            ]
+          },
+          {
+            "id": "explore",
+            "title": "Expeditions, the room and rubber-ducking",
+            "description": "Send your pet exploring for loot and artefacts while you focus, decorate its room, and when you're stuck, explain the bug to it.\n[Send on an expedition](command:idlepal.expedition)",
+            "media": {
+              "markdown": "walkthrough/explore.md"
+            },
+            "completionEvents": [
+              "onCommand:idlepal.expedition",
+              "onCommand:idlepal.duck"
+            ]
+          },
+          {
+            "id": "team",
+            "title": "Bring your team",
+            "description": "Share your pet to the repo and see your teammates' pets in the Team tab. No server, no accounts: it travels with git.\n[Share my pet](command:idlepal.toggleTeamShare)",
+            "media": {
+              "markdown": "walkthrough/team.md"
+            },
+            "completionEvents": [
+              "onCommand:idlepal.toggleTeamShare"
+            ]
+          },
+          {
+            "id": "tune",
+            "title": "Make it yours",
+            "description": "Busy week? Use vacation mode to freeze time, or slow things down in settings. Your pet can also sync to your other machines.\n[Open settings](command:idlepal.openSettings)",
+            "media": {
+              "markdown": "walkthrough/tune.md"
+            },
+            "completionEvents": [
+              "onCommand:idlepal.openSettings"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

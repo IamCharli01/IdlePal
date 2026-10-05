@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="{{csp}}">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="{{css}}">
+<title>IdlePal</title>
+</head>
+<body class="layout-{{layout}}">
+<div id="app">
+  <div class="sticky-head" id="sticky-head">
+  <header class="topbar">
+    <span class="chip" id="chip-coins" title="Coins: earn them by coding, committing, playing and checking in daily"><i data-icon="coin"></i><b id="coins">0</b></span>
+    <span class="chip" id="chip-streak" title="Daily streak"><i data-icon="flame"></i><b id="streak">0</b></span>
+    <span class="spacer"></span>
+    <button class="icon-btn" id="btn-vacation" title="Vacation mode (freeze time)" aria-label="Vacation mode"><i data-icon="umbrella"></i></button>
+    <button class="icon-btn" id="btn-settings" title="Settings" aria-label="Settings"><i data-icon="gear"></i></button>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Sections">
+    <button role="tab" id="tabbtn-pet" data-tab="pet" aria-controls="tab-pet">Pet</button>
+    <button role="tab" id="tabbtn-shop" data-tab="shop" aria-controls="tab-shop">Shop</button>
+    <button role="tab" id="tabbtn-dex" data-tab="dex" aria-controls="tab-dex">Collection</button>
+    <button role="tab" id="tabbtn-team" data-tab="team" aria-controls="tab-team">Team</button>
+    <button role="tab" id="tabbtn-journal" data-tab="journal" aria-controls="tab-journal">Diary</button>
+    <button role="tab" id="tabbtn-stats" data-tab="stats" aria-controls="tab-stats">Stats</button>
+  </nav>
+  </div>
+
+  <section id="tab-pet" role="tabpanel" aria-labelledby="tabbtn-pet">
+    <div class="device" id="device">
+      <div class="device-top">
+        <span class="brand">IDLEPAL</span>
+        <span class="led" id="led" aria-hidden="true"></span>
+      </div>
+      <div class="screen-bezel">
+        <canvas id="screen" width="320" height="192" role="img" aria-label="Your pet"></canvas>
+        <div class="bubble" id="bubble" role="status" aria-live="polite"></div>
+      </div>
+      <div class="hw-buttons">
+        <div class="hw-wrap"><button class="hw" id="hw-shell" title="Change shell colour" aria-label="Change shell colour"></button><span>Shell</span></div>
+        <div class="hw-wrap"><button class="hw" id="hw-name" title="Rename" aria-label="Rename pet"></button><span>Name</span></div>
+        <div class="hw-wrap"><button class="hw" id="hw-lights" title="Lights" aria-label="Toggle lights"></button><span>Light</span></div>
+      </div>
+    </div>
+
+    <div class="info" id="info"></div>
+    <div class="sub" id="sub"></div>
+
+    <div class="stats" id="needs">
+      <div class="stat"><span><i data-icon="rice"></i>Hunger</span><div class="bar" role="progressbar" aria-label="Hunger" aria-valuemin="0" aria-valuemax="100" id="bar-hunger"><i></i></div></div>
+      <div class="stat"><span><i data-icon="heart"></i>Happy</span><div class="bar" role="progressbar" aria-label="Happiness" aria-valuemin="0" aria-valuemax="100" id="bar-happy"><i></i></div></div>
+      <div class="stat"><span><i data-icon="bolt"></i>Energy</span><div class="bar" role="progressbar" aria-label="Energy" aria-valuemin="0" aria-valuemax="100" id="bar-energy"><i></i></div></div>
+      <div class="stat"><span><i data-icon="health"></i>Health</span><div class="bar" role="progressbar" aria-label="Health" aria-valuemin="0" aria-valuemax="100" id="bar-health"><i></i></div></div>
+    </div>
+
+    <div class="actions" id="actions">
+      <button data-drawer="feed" data-need="hungry" title="Feed"><i data-icon="rice" class="big"></i><span>Feed</span></button>
+      <button data-drawer="games" data-need="bored" title="Play a game"><i data-icon="ball" class="big"></i><span>Play</span></button>
+      <button data-drawer="duck" title="Rubber-duck a bug: explain it to your pet"><i data-icon="duck" class="big"></i><span>Talk</span></button>
+      <button data-action="clean" data-need="dirty" title="Clean up"><i data-icon="sponge" class="big"></i><span>Clean</span></button>
+      <button data-action="medicine" data-need="sick" title="Give medicine (cures sickness)" aria-label="Medicine"><i data-icon="pill" class="big"></i><span>Meds</span></button>
+      <button data-action="lights" data-need="tired" id="btn-lights" title="Sleep or wake"><i data-icon="bulb" class="big"></i><span>Sleep</span></button>
+      <button data-goto="shop" title="Visit the shop"><i data-icon="bag" class="big"></i><span>Shop</span></button>
+    </div>
+
+    <!-- Drawers and game controls sit right under the actions, so they're visible in a short pane. -->
+    <div class="drawer" id="drawer-feed" hidden></div>
+    <div class="drawer" id="drawer-games" hidden></div>
+    <div class="drawer" id="drawer-duck" hidden></div>
+
+    <div class="game-bar" id="game-bar" hidden>
+      <div class="game-prompt" id="game-prompt"></div>
+      <div class="game-controls" id="game-controls"></div>
+    </div>
+
+    <div class="focus-bar" id="focus-bar"></div>
+
+    <div class="quests" id="quests"></div>
+
+    <div class="expedition" id="expedition" hidden></div>
+
+    <div class="banner" id="banner" hidden></div>
+  </section>
+
+  <section id="tab-shop" role="tabpanel" aria-labelledby="tabbtn-shop" hidden></section>
+  <section id="tab-dex" role="tabpanel" aria-labelledby="tabbtn-dex" hidden></section>
+  <section id="tab-team" role="tabpanel" aria-labelledby="tabbtn-team" hidden></section>
+  <section id="tab-journal" role="tabpanel" aria-labelledby="tabbtn-journal" hidden></section>
+  <section id="tab-stats" role="tabpanel" aria-labelledby="tabbtn-stats" hidden></section>
+</div>
+<div class="modal" id="recap" role="dialog" aria-modal="true" aria-labelledby="recap-title" hidden></div>
+<script nonce="{{nonce}}" src="{{icons}}"></script>
+<script nonce="{{nonce}}" src="{{sprites}}"></script>
+<script nonce="{{nonce}}" src="{{js}}"></script>
+</body>
+</html>
